@@ -28,18 +28,15 @@ jobs:
       - name: Build app
         working-directory: website/apps/web
         env:
-          # Set your live PocketBase URL here in GitHub Secrets.
-          # For Hostinger Horizons keep it as /hcgi/platform (the default).
-          # For a VPS set it to https://yourserver.com:8090
           VITE_POCKETBASE_URL: ${{ secrets.VITE_POCKETBASE_URL }}
         run: npx vite build --outDir ../../dist/apps/web
 
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}       # e.g. ftp.yourdomain.com
-          username: ${{ secrets.FTP_USERNAME }}   # your Hostinger FTP username
-          password: ${{ secrets.FTP_PASSWORD }}   # your Hostinger FTP password
-          local-dir: website/dist/apps/web/       # built files to upload
-          server-dir: public_html/                # Hostinger root folder
-          dangerous-clean-slate: false            # keep existing files not in build
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: website/dist/apps/web/
+          server-dir: public_html/
+          dangerous-clean-slate: false
