@@ -31,6 +31,9 @@ jobs:
           VITE_POCKETBASE_URL: ${{ secrets.VITE_POCKETBASE_URL }}
         run: npx vite build --outDir ../../dist/apps/web
 
+      - name: Verify build output
+        run: ls -la website/dist/apps/web/
+
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -39,4 +42,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: website/dist/apps/web/
           server-dir: public_html/
-          dangerous-clean-slate: false
+          dangerous-clean-slate: true
