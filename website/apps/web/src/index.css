@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark Navy #1a2a4a */
+    --background: 220 48% 20%;
+    /* White text */
+    --foreground: 0 0% 100%;
+    
+    /* Slightly lighter navy for cards */
+    --card: 220 45% 25%;
+    --card-foreground: 0 0% 100%;
+    
+    /* Primary accent - vibrant orange */
+    --primary: 16 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary - muted blue-gray */
+    --secondary: 220 20% 40%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Muted - subtle gray */
+    --muted: 220 15% 35%;
+    --muted-foreground: 0 0% 85%;
+    
+    /* Accent - bright green for CTAs */
+    --accent: 142 71% 45%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Destructive - red for errors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Popover */
+    --popover: 220 45% 25%;
+    --popover-foreground: 0 0% 100%;
+    
+    /* Border and input */
+    --border: 220 30% 35%;
+    --input: 220 40% 30%;
+    --ring: 16 100% 50%;
+    
+    /* Radius */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 220 48% 20%;
+    --foreground: 0 0% 100%;
+    --card: 220 45% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 16 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 20% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 15% 35%;
+    --muted-foreground: 0 0% 85%;
+    --accent: 142 71% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --popover: 220 45% 25%;
+    --popover-foreground: 0 0% 100%;
+    --border: 220 30% 35%;
+    --input: 220 40% 30%;
+    --ring: 16 100% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .parallax-bg {
+    @apply relative;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  @media (max-width: 768px) {
+    .parallax-bg {
+      background-attachment: scroll;
+    }
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .drop-shadow-md {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  }
+
+  .font-variant-numeric {
+    font-variant-numeric: tabular-nums;
+  }
+}
