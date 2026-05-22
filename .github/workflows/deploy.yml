@@ -3,7 +3,8 @@ name: Build & Deploy to Hostinger
 on:
   push:
     branches:
-      - main        # auto-deploy when you merge to main
+      - main
+      - claude/quirky-gates-MZhWI   # auto-deploy from active dev branch
   workflow_dispatch: # allow manual trigger from GitHub Actions tab
 
 jobs:
