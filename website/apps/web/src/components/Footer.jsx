@@ -1,22 +1,19 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
 
 const Footer = () => {
   const scrollToSection = (e, href) => {
     e.preventDefault();
     const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <footer className="bg-slate-950 text-slate-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand Section */}
+          {/* Brand */}
           <div>
             <div className="flex items-center mb-4">
               <span className="text-2xl font-extrabold text-primary">Paddles</span>
@@ -42,24 +39,19 @@ const Footer = () => {
                 </a>
               </li>
               <li>
+                <Link to="/partner" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  Partner With Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/vip" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  VIP Membership
+                </Link>
+              </li>
+              <li>
                 <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
                   About
                 </a>
-              </li>
-              <li>
-                <a href="#contact" onClick={(e) => scrollToSection(e, '#contact')} className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <Link to="/terms" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
-                  Privacy Policy
-                </Link>
               </li>
             </ul>
           </div>
@@ -69,23 +61,45 @@ const Footer = () => {
             <span className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4 block">Contact Us</span>
             <ul className="space-y-3 mb-6">
               <li className="flex items-center space-x-2 text-sm text-slate-300">
-                <Mail className="h-4 w-4 text-primary" />
-                <span>info@paddlespk.com</span>
+                <Mail className="h-4 w-4 text-primary shrink-0" />
+                <a href="mailto:hello@paddlespk.com" className="hover:text-primary transition-colors">
+                  hello@paddlespk.com
+                </a>
               </li>
               <li className="flex items-center space-x-2 text-sm text-slate-300">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>+92 300 1234567</span>
+                <Phone className="h-4 w-4 text-primary shrink-0" />
+                <a href="tel:03027799404" className="hover:text-primary transition-colors">
+                  0302-7799404
+                </a>
               </li>
             </ul>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-primary transition-colors duration-200">
+              <a
+                href="https://www.facebook.com/paddlespk/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-300 hover:text-primary transition-colors duration-200"
+                aria-label="Facebook"
+              >
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-primary transition-colors duration-200">
+              <a
+                href="https://www.instagram.com/paddlespk/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-300 hover:text-primary transition-colors duration-200"
+                aria-label="Instagram"
+              >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-primary transition-colors duration-200">
-                <Twitter className="h-5 w-5" />
+              <a
+                href="https://www.linkedin.com/company/paddlespk/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-300 hover:text-primary transition-colors duration-200"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
               </a>
             </div>
           </div>

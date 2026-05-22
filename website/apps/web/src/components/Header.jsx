@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, LogOut, BookMarked, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,39 +11,45 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const navLinks = [
     { name: 'Arenas', href: '/#arenas' },
-    { name: 'Bookings', href: '/#bookings' },
+    { name: 'Book a Court', href: '/#booking' },
     { name: 'About', href: '/#about' },
-    { name: 'Partner', href: '/#partner-section' },
-    { name: 'VIP Membership', href: '/vip' },
+    { name: 'Partner', href: '/partner' },
+    { name: 'VIP', href: '/vip' },
   ];
 
   const handleNavigation = (e, href) => {
     e.preventDefault();
     setIsOpen(false);
-    
+
     if (href.startsWith('/#')) {
-      const hash = href.substring(1); // extract '#...'
+      const hash = href.substring(1);
       if (location.pathname !== '/') {
         navigate(href);
       } else {
         const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
       navigate(href);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (
@@ -53,10 +58,8 @@ const Header = () => {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 shrink-0">
-            <div className="flex items-center">
-              <span className="text-2xl font-extrabold text-white">Paddles</span>
-              <span className="text-2xl font-extrabold text-primary">PK</span>
-            </div>
+            <span className="text-2xl font-extrabold text-white">Paddles</span>
+            <span className="text-2xl font-extrabold text-primary">PK</span>
           </Link>
 
           {/* Center Navigation */}
@@ -67,51 +70,74 @@ const Header = () => {
                 href={link.href}
                 onClick={(e) => handleNavigation(e, link.href)}
                 className={`text-sm xl:text-base font-medium transition-colors duration-200 ${
-                  location.pathname === link.href 
-                    ? 'text-primary' 
+                  location.pathname === link.href
+                    ? 'text-primary'
                     : 'text-white/90 hover:text-primary'
                 }`}
               >
                 {link.name}
               </a>
             ))}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-sm xl:text-base font-medium text-white/90 hover:text-primary transition-colors duration-200 outline-none">
-                More <ChevronDown className="ml-1 h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="bg-[#1a2a4a] border-white/10 text-white">
-                <DropdownMenuItem className="hover:bg-white/10 focus:bg-white/10 cursor-pointer">
-                  Blog
-                </DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-white/10 focus:bg-white/10 cursor-pointer">
-                  Contact Us
-                </DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-white/10 focus:bg-white/10 cursor-pointer">
-                  FAQ
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </nav>
 
-          {/* Right Side: Auth & CTA */}
+          {/* Right side: auth-aware */}
           <div className="hidden md:flex items-center space-x-4 xl:space-x-6">
-            <div className="flex items-center space-x-4 border-r border-white/20 pr-4 xl:pr-6">
-              <Link to="/signin" className="text-sm xl:text-base font-medium text-white hover:text-primary transition-colors">
-                Sign In
-              </Link>
-              <Link to="/signup" className="text-sm xl:text-base font-medium text-white hover:text-primary transition-colors">
-                Sign Up
-              </Link>
-            </div>
-            <Button 
-              onClick={(e) => handleNavigation(e, '/#booking')}
-              className="bg-[#FF6B35] text-white hover:bg-[#FF6B35]/90 hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98] font-semibold px-4 xl:px-6 h-11"
-            >
-              Book an Arena
-            </Button>
+            {user ? (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-2 text-sm font-medium text-white/90 hover:text-primary transition-colors outline-none">
+                      <div className="w-8 h-8 rounded-full bg-primary/30 flex items-center justify-center">
+                        <User className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="max-w-[120px] truncate">{user.name || user.email}</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-[#1a2a4a] border-white/10 text-white w-48">
+                    <DropdownMenuItem
+                      onClick={() => navigate('/my-bookings')}
+                      className="hover:bg-white/10 focus:bg-white/10 cursor-pointer gap-2"
+                    >
+                      <BookMarked className="w-4 h-4" /> My Bookings
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="hover:bg-white/10 focus:bg-white/10 cursor-pointer gap-2 text-red-400"
+                    >
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <Button
+                  onClick={(e) => handleNavigation(e, '/#booking')}
+                  className="bg-[#FF6B35] text-white hover:bg-[#FF6B35]/90 hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98] font-semibold px-4 xl:px-6 h-11"
+                >
+                  Book an Arena
+                </Button>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center space-x-4 border-r border-white/20 pr-4 xl:pr-6">
+                  <Link to="/signin" className="text-sm xl:text-base font-medium text-white hover:text-primary transition-colors">
+                    Sign In
+                  </Link>
+                  <Link to="/signup" className="text-sm xl:text-base font-medium text-white hover:text-primary transition-colors">
+                    Sign Up
+                  </Link>
+                </div>
+                <Button
+                  onClick={(e) => handleNavigation(e, '/#booking')}
+                  className="bg-[#FF6B35] text-white hover:bg-[#FF6B35]/90 hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98] font-semibold px-4 xl:px-6 h-11"
+                >
+                  Book an Arena
+                </Button>
+              </>
+            )}
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
@@ -135,21 +161,36 @@ const Header = () => {
                       {link.name}
                     </a>
                   ))}
-                  <a href="#more" className="text-lg font-medium text-white hover:text-primary transition-colors duration-200">
-                    Blog
-                  </a>
-                  <a href="#more" className="text-lg font-medium text-white hover:text-primary transition-colors duration-200">
-                    Contact Us
-                  </a>
                 </div>
                 <div className="flex flex-col space-y-4 pt-2">
-                  <Link to="/signin" className="text-lg font-medium text-white hover:text-primary" onClick={() => setIsOpen(false)}>
-                    Sign In
-                  </Link>
-                  <Link to="/signup" className="text-lg font-medium text-white hover:text-primary" onClick={() => setIsOpen(false)}>
-                    Sign Up
-                  </Link>
-                  <Button 
+                  {user ? (
+                    <>
+                      <span className="text-sm text-muted-foreground">Signed in as {user.name || user.email}</span>
+                      <Link
+                        to="/my-bookings"
+                        onClick={() => setIsOpen(false)}
+                        className="text-lg font-medium text-white hover:text-primary flex items-center gap-2"
+                      >
+                        <BookMarked className="w-5 h-5" /> My Bookings
+                      </Link>
+                      <button
+                        onClick={() => { setIsOpen(false); handleLogout(); }}
+                        className="text-lg font-medium text-red-400 hover:text-red-300 flex items-center gap-2 text-left"
+                      >
+                        <LogOut className="w-5 h-5" /> Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/signin" className="text-lg font-medium text-white hover:text-primary" onClick={() => setIsOpen(false)}>
+                        Sign In
+                      </Link>
+                      <Link to="/signup" className="text-lg font-medium text-white hover:text-primary" onClick={() => setIsOpen(false)}>
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
+                  <Button
                     onClick={(e) => handleNavigation(e, '/#booking')}
                     className="bg-[#FF6B35] text-white hover:bg-[#FF6B35]/90 w-full h-12 text-lg font-semibold transition-all duration-200 active:scale-[0.98] mt-4"
                   >

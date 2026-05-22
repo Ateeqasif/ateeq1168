@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Zap, MapPin, DollarSign, Award, Search, Filter, Briefcase, TrendingUp, Users } from 'lucide-react';
 import Header from '@/components/Header.jsx';
 import Footer from '@/components/Footer.jsx';
 import ArenaCard from '@/components/ArenaCard.jsx';
 import FeatureCard from '@/components/FeatureCard.jsx';
 import BookingForm from '@/components/BookingForm.jsx';
-import PartnerRegistrationForm from '@/components/PartnerRegistrationForm.jsx';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/select';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCity, setSelectedCity] = useState('all');
   const [selectedPrice, setSelectedPrice] = useState('all');
@@ -306,7 +307,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* Partner Section */}
+        {/* Partner CTA Section */}
         <section id="partner-section" className="py-24 bg-card/50 border-t border-border relative overflow-hidden">
           <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -323,8 +324,8 @@ const HomePage = () => {
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                   Are you a padel court owner? Join Pakistan's fastest-growing padel community. Register your arena today and seamlessly manage your bookings, increase your visibility, and boost your revenue.
                 </p>
-                
-                <div className="space-y-6">
+
+                <div className="space-y-6 mb-10">
                   <div className="flex items-start">
                     <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-primary/20 text-primary mt-1">
                       <Users className="w-6 h-6" />
@@ -353,6 +354,13 @@ const HomePage = () => {
                     </div>
                   </div>
                 </div>
+
+                <Button
+                  onClick={() => navigate('/partner')}
+                  className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 transition-all duration-200"
+                >
+                  Register Your Arena
+                </Button>
               </motion.div>
 
               <motion.div
@@ -360,8 +368,13 @@ const HomePage = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
+                className="hidden lg:block"
               >
-                <PartnerRegistrationForm />
+                <img
+                  src="https://images.unsplash.com/photo-1642352684040-ac721f390031"
+                  alt="Padel court"
+                  className="rounded-2xl w-full h-96 object-cover shadow-2xl"
+                />
               </motion.div>
             </div>
           </div>

@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,8 +19,32 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar as CalendarIcon, Clock, Users, MapPin } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Users, MapPin, LogIn, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { useAuth } from '@/contexts/AuthContext';
+import pb from '@/lib/pocketbaseClient';
+
+const timeSlots = [
+  { label: '9 AM - 10 AM', value: '09:00-10:00', period: 'Morning' },
+  { label: '10 AM - 11 AM', value: '10:00-11:00', period: 'Morning' },
+  { label: '11 AM - 12 PM', value: '11:00-12:00', period: 'Morning' },
+  { label: '12 PM - 1 PM', value: '12:00-13:00', period: 'Afternoon' },
+  { label: '1 PM - 2 PM', value: '13:00-14:00', period: 'Afternoon' },
+  { label: '2 PM - 3 PM', value: '14:00-15:00', period: 'Afternoon' },
+  { label: '3 PM - 4 PM', value: '15:00-16:00', period: 'Afternoon' },
+  { label: '4 PM - 5 PM', value: '16:00-17:00', period: 'Afternoon' },
+  { label: '5 PM - 6 PM', value: '17:00-18:00', period: 'Evening' },
+  { label: '6 PM - 7 PM', value: '18:00-19:00', period: 'Evening' },
+  { label: '7 PM - 8 PM', value: '19:00-20:00', period: 'Evening' },
+  { label: '8 PM - 9 PM', value: '20:00-21:00', period: 'Evening' },
+  { label: '9 PM - 10 PM', value: '21:00-22:00', period: 'Evening' },
+];
+
+const groupedSlots = timeSlots.reduce((acc, slot) => {
+  if (!acc[slot.period]) acc[slot.period] = [];
+  acc[slot.period].push(slot);
+  return acc;
+}, {});
 
 const BookingForm = ({ arenas, preselectedArena = null }) => {
   const [date, setDate] = useState(null);
@@ -28,26 +52,24 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
   const [selectedArena, setSelectedArena] = useState(preselectedArena?.name || '');
   const [playerCount, setPlayerCount] = useState('2');
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
-  const timeSlots = [
-    { label: '9 AM - 10 AM', value: '09:00-10:00', period: 'Morning' },
-    { label: '10 AM - 11 AM', value: '10:00-11:00', period: 'Morning' },
-    { label: '11 AM - 12 PM', value: '11:00-12:00', period: 'Morning' },
-    { label: '12 PM - 1 PM', value: '12:00-13:00', period: 'Afternoon' },
-    { label: '1 PM - 2 PM', value: '13:00-14:00', period: 'Afternoon' },
-    { label: '2 PM - 3 PM', value: '14:00-15:00', period: 'Afternoon' },
-    { label: '3 PM - 4 PM', value: '15:00-16:00', period: 'Afternoon' },
-    { label: '4 PM - 5 PM', value: '16:00-17:00', period: 'Afternoon' },
-    { label: '5 PM - 6 PM', value: '17:00-18:00', period: 'Evening' },
-    { label: '6 PM - 7 PM', value: '18:00-19:00', period: 'Evening' },
-    { label: '7 PM - 8 PM', value: '19:00-20:00', period: 'Evening' },
-    { label: '8 PM - 9 PM', value: '20:00-21:00', period: 'Evening' },
-    { label: '9 PM - 10 PM', value: '21:00-22:00', period: 'Evening' },
-  ];
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      toast({
+        title: 'Sign in required',
+        description: 'Please sign in to book a court.',
+        variant: 'destructive',
+      });
+      navigate('/signin', { state: { from: '/' } });
+      return;
+    }
 
     if (!date || !timeSlot || !selectedArena || !playerCount) {
       toast({
@@ -58,47 +80,67 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
       return;
     }
 
-    const booking = {
-      date: format(date, 'PPP'),
-      timeSlot: timeSlots.find(slot => slot.value === timeSlot)?.label,
-      arena: selectedArena,
-      players: playerCount,
-      timestamp: new Date().toISOString(),
-    };
+    setIsSubmitting(true);
+    try {
+      const slotLabel = timeSlots.find(s => s.value === timeSlot)?.label || timeSlot;
+      await pb.collection('bookings').create({
+        userId: user.id,
+        arenaName: selectedArena,
+        date: format(date, 'PPP'),
+        timeSlot: slotLabel,
+        players: Number(playerCount),
+        status: 'confirmed',
+      }, { $autoCancel: false });
 
-    // Save to localStorage
-    const existingBookings = JSON.parse(localStorage.getItem('paddlesPKBookings') || '[]');
-    existingBookings.push(booking);
-    localStorage.setItem('paddlesPKBookings', JSON.stringify(existingBookings));
-
-    setShowConfirmation(true);
+      setShowConfirmation(true);
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: 'Booking failed',
+        description: err.message || 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
-    // Reset form
     setDate(null);
     setTimeSlot('');
     setSelectedArena('');
     setPlayerCount('2');
-    
-    toast({
-      title: 'Booking confirmed',
-      description: 'Your court has been reserved successfully.',
-    });
+    toast({ title: 'Booking confirmed', description: 'Your court has been reserved successfully.' });
   };
-
-  const groupedSlots = timeSlots.reduce((acc, slot) => {
-    if (!acc[slot.period]) {
-      acc[slot.period] = [];
-    }
-    acc[slot.period].push(slot);
-    return acc;
-  }, {});
 
   return (
     <>
       <form onSubmit={handleSubmit} className="bg-card rounded-2xl shadow-xl p-8">
+        {!user && (
+          <div className="mb-6 flex items-center gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20">
+            <LogIn className="w-5 h-5 text-primary shrink-0" />
+            <p className="text-sm text-white/90">
+              <button
+                type="button"
+                onClick={() => navigate('/signin', { state: { from: '/' } })}
+                className="text-primary font-semibold hover:underline"
+              >
+                Sign in
+              </button>{' '}
+              or{' '}
+              <button
+                type="button"
+                onClick={() => navigate('/signup')}
+                className="text-primary font-semibold hover:underline"
+              >
+                create an account
+              </button>{' '}
+              to save your bookings and view them anytime.
+            </p>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Date Picker */}
           <div>
@@ -111,7 +153,7 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
                 mode="single"
                 selected={date}
                 onSelect={setDate}
-                disabled={(date) => date < new Date()}
+                disabled={(d) => d < new Date()}
                 className="rounded-md"
               />
             </div>
@@ -132,14 +174,14 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
                 <SelectContent>
                   {arenas.map((arena) => (
                     <SelectItem key={arena.name} value={arena.name}>
-                      {arena.name} - {arena.location}
+                      {arena.name} — {arena.location}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Time Slot Selection */}
+            {/* Time Slot */}
             <div>
               <Label className="flex items-center space-x-2 mb-3 text-base font-semibold">
                 <Clock className="h-5 w-5 text-primary" />
@@ -159,9 +201,7 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
                           variant={timeSlot === slot.value ? 'default' : 'outline'}
                           onClick={() => setTimeSlot(slot.value)}
                           className={`h-10 text-sm transition-all duration-200 ${
-                            timeSlot === slot.value
-                              ? 'bg-primary text-primary-foreground'
-                              : 'hover:border-primary'
+                            timeSlot === slot.value ? 'bg-primary text-primary-foreground' : 'hover:border-primary'
                           }`}
                         >
                           {slot.label}
@@ -191,25 +231,26 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
               </Select>
             </div>
 
-            {/* Submit Button */}
             <Button
               type="submit"
+              disabled={isSubmitting}
               className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold transition-all duration-200 active:scale-[0.98]"
             >
-              Confirm Booking
+              {isSubmitting ? (
+                <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Confirming...</>
+              ) : (
+                'Confirm Booking'
+              )}
             </Button>
           </div>
         </div>
       </form>
 
-      {/* Confirmation Dialog */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Booking Confirmed</DialogTitle>
-            <DialogDescription>
-              Your padel court has been successfully reserved.
-            </DialogDescription>
+            <DialogDescription>Your padel court has been successfully reserved.</DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-4">
             <div className="flex justify-between">
@@ -218,9 +259,7 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Time:</span>
-              <span className="font-semibold">
-                {timeSlots.find(slot => slot.value === timeSlot)?.label}
-              </span>
+              <span className="font-semibold">{timeSlots.find(s => s.value === timeSlot)?.label}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Arena:</span>
@@ -231,10 +270,11 @@ const BookingForm = ({ arenas, preselectedArena = null }) => {
               <span className="font-semibold">{playerCount}</span>
             </div>
           </div>
-          <DialogFooter>
-            <Button onClick={handleConfirmationClose} className="w-full">
-              Done
+          <DialogFooter className="flex-col gap-2 sm:flex-row">
+            <Button variant="outline" onClick={() => { handleConfirmationClose(); navigate('/my-bookings'); }} className="w-full sm:w-auto">
+              View My Bookings
             </Button>
+            <Button onClick={handleConfirmationClose} className="w-full sm:w-auto">Done</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
