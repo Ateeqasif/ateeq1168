@@ -25,7 +25,7 @@ const Header = () => {
   const navLinks = [
     { name: 'Arenas', href: '/#arenas' },
     { name: 'Book a Court', href: '/#booking' },
-    { name: 'About', href: '/#about' },
+    { name: 'About', href: '/about-us' },
     { name: 'Partner', href: '/partner' },
     { name: 'VIP', href: '/vip' },
   ];
@@ -57,9 +57,8 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 shrink-0">
-            <span className="text-2xl font-extrabold text-white">Paddles</span>
-            <span className="text-2xl font-extrabold text-primary">PK</span>
+          <Link to="/" className="flex items-center shrink-0">
+            <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto" />
           </Link>
 
           {/* Center Navigation */}
@@ -147,8 +146,7 @@ const Header = () => {
             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-[#1a2a4a] border-l-white/10 overflow-y-auto">
               <div className="flex flex-col space-y-6 mt-8">
                 <div className="flex items-center mb-4">
-                  <span className="text-2xl font-extrabold text-white">Paddles</span>
-                  <span className="text-2xl font-extrabold text-primary">PK</span>
+                  <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto" />
                 </div>
                 <div className="flex flex-col space-y-4 border-b border-white/10 pb-6">
                   {navLinks.map((link) => (

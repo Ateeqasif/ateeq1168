@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0f1e2e"/>
+  <!-- Racket head -->
+  <ellipse cx="16" cy="12.5" rx="8.5" ry="9.5" fill="#FF6B35"/>
+  <!-- String lines horizontal -->
+  <line x1="8.2" y1="9.5" x2="23.8" y2="9.5" stroke="#0f1e2e" stroke-width="1.2"/>
+  <line x1="7.5" y1="12.5" x2="24.5" y2="12.5" stroke="#0f1e2e" stroke-width="1.2"/>
+  <line x1="8.2" y1="15.5" x2="23.8" y2="15.5" stroke="#0f1e2e" stroke-width="1.2"/>
+  <!-- String lines vertical -->
+  <line x1="13" y1="3.5" x2="13" y2="21.5" stroke="#0f1e2e" stroke-width="1.2"/>
+  <line x1="16" y1="3" x2="16" y2="22" stroke="#0f1e2e" stroke-width="1.2"/>
+  <line x1="19" y1="3.5" x2="19" y2="21.5" stroke="#0f1e2e" stroke-width="1.2"/>
+  <!-- Handle -->
+  <rect x="14.5" y="21.5" width="3" height="8" rx="1.5" fill="#FF6B35"/>
+  <!-- Grip tape -->
+  <rect x="14.5" y="24" width="3" height="1.2" rx="0.5" fill="#0f1e2e" opacity="0.5"/>
+  <rect x="14.5" y="26.2" width="3" height="1.2" rx="0.5" fill="#0f1e2e" opacity="0.5"/>
+</svg>

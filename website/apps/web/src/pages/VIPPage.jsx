@@ -109,7 +109,7 @@ const VIPPage = () => {
                 <ul className="space-y-3 mb-8">
                   {benefits.map((b, i) => (
                     <li key={i} className="flex items-center gap-3 text-sm text-white/90">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
                       {b.title}
                     </li>
                   ))}

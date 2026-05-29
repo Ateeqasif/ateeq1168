@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const scrollToSection = (e, href) => {
@@ -16,8 +16,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center mb-4">
-              <span className="text-2xl font-extrabold text-primary">Paddles</span>
-              <span className="text-2xl font-extrabold text-secondary">PK</span>
+              <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto brightness-100" />
             </div>
             <p className="text-sm text-slate-300 leading-relaxed">
               Pakistan's premier padel court booking platform. Find and book the best courts across the country.
@@ -49,9 +48,14 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
-                  About
-                </a>
+                <Link to="/about-us" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/support" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  Support
+                </Link>
               </li>
             </ul>
           </div>
@@ -71,6 +75,10 @@ const Footer = () => {
                 <a href="tel:03027799404" className="hover:text-primary transition-colors">
                   0302-7799404
                 </a>
+              </li>
+              <li className="flex items-start space-x-2 text-sm text-slate-300">
+                <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                <span>678/E, DHA Phase-5,<br />Lahore, Pakistan 54000</span>
               </li>
             </ul>
             <div className="flex space-x-4">
@@ -105,10 +113,18 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8 text-center">
+        <div className="border-t border-slate-800 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-slate-400">
             © {new Date().getFullYear()} PaddlesPK. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy-policy" className="text-xs text-slate-400 hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="text-xs text-slate-400 hover:text-primary transition-colors">
+              Terms &amp; Conditions
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
