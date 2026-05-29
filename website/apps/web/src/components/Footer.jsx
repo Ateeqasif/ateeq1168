@@ -53,6 +53,11 @@ const Footer = () => {
                   About
                 </a>
               </li>
+              <li>
+                <Link to="/support" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  Support
+                </Link>
+              </li>
             </ul>
           </div>
 
