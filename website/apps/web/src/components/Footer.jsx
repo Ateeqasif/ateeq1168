@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const scrollToSection = (e, href) => {
@@ -48,9 +48,9 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
-                  About
-                </a>
+                <Link to="/about-us" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  About Us
+                </Link>
               </li>
               <li>
                 <Link to="/support" className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
@@ -75,6 +75,10 @@ const Footer = () => {
                 <a href="tel:03027799404" className="hover:text-primary transition-colors">
                   0302-7799404
                 </a>
+              </li>
+              <li className="flex items-start space-x-2 text-sm text-slate-300">
+                <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                <span>678/E, DHA Phase-5,<br />Lahore, Pakistan 54000</span>
               </li>
             </ul>
             <div className="flex space-x-4">

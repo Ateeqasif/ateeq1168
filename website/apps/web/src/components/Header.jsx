@@ -25,7 +25,7 @@ const Header = () => {
   const navLinks = [
     { name: 'Arenas', href: '/#arenas' },
     { name: 'Book a Court', href: '/#booking' },
-    { name: 'About', href: '/#about' },
+    { name: 'About', href: '/about-us' },
     { name: 'Partner', href: '/partner' },
     { name: 'VIP', href: '/vip' },
   ];

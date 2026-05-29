@@ -15,8 +15,8 @@
     --card: 220 45% 25%;
     --card-foreground: 0 0% 100%;
     
-    /* Primary accent - vibrant orange */
-    --primary: 16 100% 50%;
+    /* Primary accent - PaddlesPK orange #FF6B35 */
+    --primary: 16 100% 60%;
     --primary-foreground: 0 0% 100%;
     
     /* Secondary - muted blue-gray */
@@ -42,7 +42,7 @@
     /* Border and input */
     --border: 220 30% 35%;
     --input: 220 40% 30%;
-    --ring: 16 100% 50%;
+    --ring: 16 100% 60%;
     
     /* Radius */
     --radius: 0.5rem;
@@ -53,7 +53,7 @@
     --foreground: 0 0% 100%;
     --card: 220 45% 25%;
     --card-foreground: 0 0% 100%;
-    --primary: 16 100% 50%;
+    --primary: 16 100% 60%;
     --primary-foreground: 0 0% 100%;
     --secondary: 220 20% 40%;
     --secondary-foreground: 0 0% 100%;
@@ -67,7 +67,7 @@
     --popover-foreground: 0 0% 100%;
     --border: 220 30% 35%;
     --input: 220 40% 30%;
-    --ring: 16 100% 50%;
+    --ring: 16 100% 60%;
   }
 
   * {

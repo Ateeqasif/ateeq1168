@@ -12,6 +12,7 @@ import PartnerPage from './pages/PartnerPage.jsx';
 import SupportPage from './pages/SupportPage.jsx';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx';
 import TermsPage from './pages/TermsPage.jsx';
+import AboutUsPage from './pages/AboutUsPage.jsx';
 import AdminLoginPage from './pages/admin/AdminLoginPage.jsx';
 import DashboardPage from './pages/admin/DashboardPage.jsx';
 import CourtsPage from './pages/admin/CourtsPage.jsx';
@@ -40,6 +41,7 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/about-us" element={<AboutUsPage />} />
 
             {/* Admin routes */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
