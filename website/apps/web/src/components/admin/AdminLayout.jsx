@@ -38,7 +38,7 @@ const AdminLayout = ({ children }) => {
       )}>
         <div className="flex items-center gap-2 px-5 py-4 border-b border-white/10">
           <Link to="/" className="flex items-center gap-1">
-            <img src="/logo.svg" alt="PaddlesPK" className="h-8 w-auto" />
+            <img src="/logo.svg" alt="PaddlesPK" className="h-12 w-auto" />
           </Link>
           <span className="ml-auto text-xs bg-orange-500 px-2 py-0.5 rounded font-semibold">Admin</span>
           <button className="lg:hidden ml-1 text-white/60 hover:text-white" onClick={() => setSidebarOpen(false)}>

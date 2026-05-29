@@ -16,7 +16,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center mb-4">
-              <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto brightness-100" />
+              <img src="/logo.svg" alt="PaddlesPK" className="h-16 w-auto" />
             </div>
             <p className="text-sm text-slate-300 leading-relaxed">
               Pakistan's premier padel court booking platform. Find and book the best courts across the country.

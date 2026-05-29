@@ -58,7 +58,7 @@ const Header = () => {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto" />
+            <img src="/logo.svg" alt="PaddlesPK" className="h-16 w-auto" />
           </Link>
 
           {/* Center Navigation */}
@@ -146,7 +146,7 @@ const Header = () => {
             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-[#1a2a4a] border-l-white/10 overflow-y-auto">
               <div className="flex flex-col space-y-6 mt-8">
                 <div className="flex items-center mb-4">
-                  <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto" />
+                  <img src="/logo.svg" alt="PaddlesPK" className="h-16 w-auto" />
                 </div>
                 <div className="flex flex-col space-y-4 border-b border-white/10 pb-6">
                   {navLinks.map((link) => (
