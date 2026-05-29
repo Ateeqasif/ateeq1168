@@ -16,8 +16,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center mb-4">
-              <span className="text-2xl font-extrabold text-primary">Paddles</span>
-              <span className="text-2xl font-extrabold text-secondary">PK</span>
+              <img src="/logo.svg" alt="PaddlesPK" className="h-10 w-auto brightness-100" />
             </div>
             <p className="text-sm text-slate-300 leading-relaxed">
               Pakistan's premier padel court booking platform. Find and book the best courts across the country.
@@ -110,10 +109,18 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8 text-center">
+        <div className="border-t border-slate-800 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-slate-400">
             © {new Date().getFullYear()} PaddlesPK. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy-policy" className="text-xs text-slate-400 hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="text-xs text-slate-400 hover:text-primary transition-colors">
+              Terms &amp; Conditions
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -10,6 +10,8 @@ import VIPPage from './pages/VIPPage.jsx';
 import MyBookingsPage from './pages/MyBookingsPage.jsx';
 import PartnerPage from './pages/PartnerPage.jsx';
 import SupportPage from './pages/SupportPage.jsx';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx';
+import TermsPage from './pages/TermsPage.jsx';
 import AdminLoginPage from './pages/admin/AdminLoginPage.jsx';
 import DashboardPage from './pages/admin/DashboardPage.jsx';
 import CourtsPage from './pages/admin/CourtsPage.jsx';
@@ -36,6 +38,8 @@ function App() {
             <Route path="/my-bookings" element={<MyBookingsPage />} />
             <Route path="/partner" element={<PartnerPage />} />
             <Route path="/support" element={<SupportPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
 
             {/* Admin routes */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
